@@ -1,33 +1,38 @@
-const postModel = require("../models/post.model")
-const fileService = require("./file.service")
+const postModel = require('../models/post.model')
+const fileService = require('./file.service')
 
 class PostService {
+	async create(post, picture, author) {
+		const fileName = fileService.save(picture)
+		const newPost = await postModel.create({ ...post, picture: fileName, author })
+		return newPost
+	}
 
-    async create(post, picture) {
-        const fileName = fileService.save(picture)
-        const newPost = await postModel.create({ ...post, picture: fileName })
-        return newPost
-    }
+	async getAll() {
+		const allPosts = await postModel.find().populate('author')
+		return allPosts
+	}
 
-    async getAll() {
-        return await postModel.find()
-    }
+	async delete(id) {
+		const post = await postModel.findByIdAndDelete(id)
+		return post
+	}
 
-    async delete(id) {
-        return await postModel.findByIdAndDelete(id)
-    }
+	async edit(post, id) {
+		if (!id) {
+			throw new Error('Id not found')
+		}
 
-    async update(id, post) {
-        if (!id) throw new Error("Id is required")
+		const updatedData = await postModel.findByIdAndUpdate(id, post, {
+			new: true,
+		})
+		return updatedData
+	}
 
-        return await postModel.findByIdAndUpdate(id, post, { new: true })
-    }
-
-    async getOne(id) {
-        if (!id) throw new Error("Id is required")
-        return await postModel.findById(id)
-    }
-
+	async getOne(id) {
+		const post = await postModel.findById(id)
+		return post
+	}
 }
 
 module.exports = new PostService()
