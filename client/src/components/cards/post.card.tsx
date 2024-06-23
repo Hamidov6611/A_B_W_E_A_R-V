@@ -11,7 +11,7 @@ const PostCard = ({ post }: { post: IPost }) => {
         setPost(post)
     }
     return (
-        <Card>
+        <Card className="w-full dark:bg-transparent bg-neutral-100">
             <img src={`${API_URL}/${post.picture}`} alt={post.title} className='rounded-t-md w-full' />
 
             <CardContent className='mt-2'>
