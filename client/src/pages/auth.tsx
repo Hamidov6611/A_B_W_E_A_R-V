@@ -1,5 +1,7 @@
 
+import ForgotPassword from '@/components/auth/forgot-passord'
 import Login from '@/components/auth/login'
+import Register from '@/components/auth/register'
 import { Card, CardContent } from '@/components/ui/card'
 import { useAuth } from '@/hooks/use-auth'
 import { useEffect } from 'react'
@@ -17,11 +19,11 @@ function Auth() {
 
 	return (
 		<div className='w-full h-screen flex justify-center items-center'>
-			<Card className='w-1/3 p-3 bg-gray-900 relative'>
+			<Card className='w-1/3 p-3 dark:bg-gray-900 bg-white relative'>
 				<CardContent>
 					{authState === 'login' && <Login />}
-					{/* {authState === 'register' && <Register />}
-					{authState === 'forgot-password' && <ForgotPassword />} */}
+					{authState === 'register' && <Register />}
+					{authState === 'forgot-password' && <ForgotPassword />}
 				</CardContent>
 			</Card>
 		</div>
