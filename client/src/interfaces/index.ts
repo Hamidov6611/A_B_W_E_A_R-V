@@ -4,9 +4,13 @@ export interface IPost {
 	body: string
 	picture: string
 	createdAt: string
-	author: string
+	author: author
 }
-
+interface author {
+	_id: string
+	username: string	
+	email: string
+}
 export interface IUser {
 	email: string
 	isActivated: boolean

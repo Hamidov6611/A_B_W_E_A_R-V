@@ -43,7 +43,13 @@ function CreatePost() {
         formData.append('body', values.body)
         formData.append('picture', picture)
 
-        const promise = $axios.post('/post/create', formData).then(res => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        }
+
+        const promise = $axios.post('/post/create', formData, config).then(res => {
             setPosts([...posts, res.data])
             form.reset()
             setPircture(null)

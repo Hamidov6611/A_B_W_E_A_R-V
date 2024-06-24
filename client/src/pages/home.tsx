@@ -12,7 +12,12 @@ function Home() {
     const { data, isLoading, error } = useQuery({
         queryKey: ["get-posts"],
         queryFn: async () => {
-            const { data } = await $axios.get('/post/get')
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            }
+            const { data } = await $axios.get('/post/get', config)
             setPosts(data)
             return data
         },

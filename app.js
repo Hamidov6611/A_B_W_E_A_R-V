@@ -21,11 +21,11 @@ app.use(express.json())
 app.use(cookieParser({}))
 app.use(express.static('static'))
 app.use(fileUpload({}))
-app.use(errorMiddleware)
 
 // Routes
 app.use('/api/post', require('./routes/post.route'))
 app.use('/api/auth', require('./routes/auth.route'))
+app.use(errorMiddleware)
 
 
 bootstrap(app)

@@ -14,6 +14,7 @@ module.exports = function (req, res, next) {
 		}
 
 		const userData = tokenService.validateAccessToken(accessToken)
+		console.log(userData)
 		if (!userData) {
 			return next(BaseError.UnauthorizedError())
 		}

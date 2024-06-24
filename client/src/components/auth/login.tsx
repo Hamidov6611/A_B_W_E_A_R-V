@@ -38,6 +38,7 @@ function Login() {
         },
         onError: error => {
             // @ts-ignore
+            console.log(error)
             toast(error.response?.data?.message)
         },
     })

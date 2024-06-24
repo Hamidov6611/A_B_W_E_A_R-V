@@ -17,9 +17,12 @@ import { postStore } from '@/store/post.store'
 import { toast } from 'sonner'
 import FillLoading from '../shared/fill-loading'
 import $api from '@/http/api'
+import { authStore } from '@/store/auth.store'
 
 function PostCard({ post }: { post: IPost }) {
 	const [open, setOpen] = useState(false)
+	const {user} = authStore()
+	console.log(user.id === post.author?._id && true)
 
 	const { onOpen, setPost } = useConfirm()
 	const { posts, setPosts } = postStore()
@@ -37,7 +40,12 @@ function PostCard({ post }: { post: IPost }) {
 	const { mutate, isPending } = useMutation({
 		mutationKey: ['edit-post'],
 		mutationFn: async (values: z.infer<typeof postSchema>) => {
-			const { data } = await $api.put(`/post/edit/${post._id}`, values)
+			const config = {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			}
+			const { data } = await $api.put(`/post/edit/${post._id}`, values, config)
 			return data
 		},
 		onSuccess: data => {
@@ -68,7 +76,7 @@ function PostCard({ post }: { post: IPost }) {
 				</Button>
 				<Popover open={open} onOpenChange={setOpen}>
 					<PopoverTrigger asChild>
-						<Button className='w-full'>Edit</Button>
+						<Button className='w-full' disabled={!(user.id === post.author?._id && true)}>Edit</Button>
 					</PopoverTrigger>
 					<PopoverContent className='w-96 relative'>
 						{isPending && <FillLoading />}
